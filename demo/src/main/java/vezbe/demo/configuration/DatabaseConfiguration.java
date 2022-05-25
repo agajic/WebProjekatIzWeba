@@ -3,14 +3,8 @@ package vezbe.demo.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import vezbe.demo.model.Company;
-import vezbe.demo.model.Department;
-import vezbe.demo.model.Employee;
-import vezbe.demo.model.Project;
-import vezbe.demo.repository.CompanyRepository;
-import vezbe.demo.repository.DepartmentRepository;
-import vezbe.demo.repository.EmployeeRepository;
-import vezbe.demo.repository.ProjectRepository;
+import vezbe.demo.model.*;
+import vezbe.demo.repository.*;
 
 import java.util.*;
 
@@ -29,8 +23,91 @@ public class DatabaseConfiguration {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private AdminRepository adminRepository;
+
+    @Autowired
+    private ArtikalRepository artikalRepository;
+
+    @Autowired
+    private DostavljacRepository dostavljacRepository;
+
+    @Autowired
+    private KomentarRepository komentarRepository;
+
+    @Autowired
+    private KorsnikRepository korsnikRepository;
+
+    @Autowired
+    private KupacRepository kupacRepository;
+
+    @Autowired
+    private LokacijaRepository lokacijaRepository;
+
+    @Autowired
+    private MenadzerRepository menadzerRepository;
+
+    @Autowired
+    private PorudzbineRepository porudzbineRepository;
+
+    @Autowired
+    private RestoranRepository restoranRepository;
+
+    @Autowired
+    private TipKupcaRepository tipKupcaRepository;
+
     @Bean
     public boolean instantiate(){
+
+        Artikal artikal1 = new Artikal("Mleko", 120);
+        Artikal artikal2 = new Artikal("Hleb", 60);
+        artikalRepository.saveAll(List.of(artikal1, artikal2));
+
+        TipKupca tipKupca1 = new TipKupca("Gold", 20);
+        tipKupcaRepository.saveAll(List.of(tipKupca1));
+
+        Lokacija lokacija1 = new Lokacija(100.2,200.1,"Futoska 20");
+        Lokacija lokacija2 = new Lokacija(200.2,400.1,"Bulevar Oslobodjenja 45");
+        lokacijaRepository.saveAll(List.of(lokacija1, lokacija2));
+
+        Restoran restoran1 = new Restoran("Caribic","Italijanski", Restoran.StatusRestorana.RADI);
+        restoran1.setLokacija(lokacija1);
+        restoran1.getArtikliUPonudi().add(artikal1);
+        artikal1.getRestorani().add(restoran1);
+        restoranRepository.saveAll(List.of(restoran1));
+
+        Menadzer menadzer1 = new Menadzer("pperic","123");
+        menadzer1.setUloga(Korisnik.Uloga.MENADZER);
+        menadzer1.setZaduzen(restoran1);
+        Menadzer menadzer2 = new Menadzer("ltubin","123");
+        menadzer1.setUloga(Korisnik.Uloga.MENADZER);
+        menadzerRepository.saveAll(List.of(menadzer1, menadzer2));
+
+        Kupac kupac1 = new Kupac("mmikic", "123"); //KAKO DATUM
+        kupac1.setUloga(Korisnik.Uloga.KUPAC);
+        kupacRepository.saveAll(List.of(kupac1));
+
+        Korisnik korisnik1 = new Korisnik("nkrstin", "123");
+        korsnikRepository.saveAll(List.of(korisnik1));
+
+        Komentar komentar1 = new Komentar(kupac1, restoran1, "Solidno", 2);
+        komentarRepository.saveAll(List.of(komentar1));
+
+        Dostavljac dostavljac1 = new Dostavljac("smijat", "123");
+        dostavljac1.setUloga(Korisnik.Uloga.DOSTAVLJAC);
+        dostavljacRepository.saveAll(List.of(dostavljac1));
+
+        Porudzbine porudzbine1 = new Porudzbine("112233", restoran1, kupac1, dostavljac1);
+        //porudzbine1.setStatus(Porudzbine.Status.CEKA_DOSTAVLJACA);
+        porudzbineRepository.saveAll(List.of(porudzbine1));
+        restoran1.getPorudzbine().add(porudzbine1);
+
+        Admin admin1 = new Admin("agajic", "123");
+        admin1.setUloga(Korisnik.Uloga.ADMIN);
+        adminRepository.saveAll(List.of(admin1));
+
+        /*ENDE*/
+
         Company company = new Company("Company 1", "Some address 123");
 
         companyRepository.save(company);
