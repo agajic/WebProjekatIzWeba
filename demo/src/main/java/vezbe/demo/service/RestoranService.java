@@ -21,6 +21,51 @@ public class RestoranService {
     @Autowired
     private LokacijaRepository lokacijaRepository;
 
+    public List<Restoran> findAll(){
+        return restoranRepository.findAll();
+    }
+
+    public List<Restoran> findByNaziv(String naziv){
+        List<Restoran> lista = restoranRepository.findAll();
+        List<Restoran> listaByNaziv = new ArrayList<>();
+        for(Restoran r : lista){
+            if(r.getNaziv().equals(naziv)){
+                listaByNaziv.add(r);
+            }
+        }
+        return listaByNaziv;
+    }
+
+    public List<Restoran> findByTip(String tip){
+        List<Restoran> lista = restoranRepository.findAll();
+        List<Restoran> listaByTip = new ArrayList<>();
+        for(Restoran r : lista){
+            if(r.getTipRestorana().equals(tip)){
+                listaByTip.add(r);
+            }
+        }
+        return listaByTip;
+    }
+
+    public List<Restoran> findByAdresa(String adresa){
+        List<Restoran> lista = restoranRepository.findAll();
+        List<Restoran> listaByAdresa = new ArrayList<>();
+        for(Restoran r : lista){
+            if(r.getLokacija().getAdresa().equals(adresa)){
+                listaByAdresa.add(r);
+            }
+        }
+        return listaByAdresa;
+    }
+
+    public Restoran findById(Long id){
+        Optional<Restoran> r = restoranRepository.findById(id);
+        if(r.isPresent()){
+            return r.get();
+        }
+        return null;
+    }
+
     public boolean saveRestoran(KreiranjeRestoranaDto res){
         List<Restoran> lista = restoranRepository.findAll();
         for(Restoran r : lista){
