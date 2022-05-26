@@ -72,4 +72,25 @@ public class KorisnikRestController {
             return ResponseEntity.ok("Uspesno izmenjene informacije");
         return new ResponseEntity("Nije pronadjen korisnik sa takvim id", HttpStatus.BAD_REQUEST);
     }
+
+    @PostMapping("api/logout")
+    public ResponseEntity<String> Logout(HttpSession session){
+        Korisnik k = (Korisnik) session.getAttribute("korisnik");
+        if(k==null){
+            return new ResponseEntity("Niste ulogovani", HttpStatus.FORBIDDEN);
+        }
+        session.invalidate();
+        return ResponseEntity.ok("Uspesno ste se izlogovali");
+    }
+
+    /*@PostMapping("api/logout")
+    public ResponseEntity Logout(HttpSession session){
+        Employee loggedEmployee = (Employee) session.getAttribute("employee");
+
+        if (loggedEmployee == null)
+            return new ResponseEntity("Forbidden", HttpStatus.FORBIDDEN);
+
+        session.invalidate();
+        return new ResponseEntity("Successfully logged out", HttpStatus.OK);
+    }*/
 }
