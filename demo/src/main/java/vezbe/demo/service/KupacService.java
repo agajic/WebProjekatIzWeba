@@ -21,4 +21,11 @@ public class KupacService {
     public Kupac findKupacById(Long id){
         return kupacRepository.getById(id);
     }
+
+    public void updateKupacBodovi(Porudzbine p){
+        Kupac k = kupacRepository.getById(p.getKupac().getId());
+        int brojBodova = (int)(p.getCena()/1000 * 133);
+        k.setBodovi(k.getBodovi() + brojBodova);
+        kupacRepository.save(k);
+    }
 }
