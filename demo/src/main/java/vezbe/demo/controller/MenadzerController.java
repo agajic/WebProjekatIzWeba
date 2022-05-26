@@ -99,4 +99,50 @@ public class MenadzerController {
         return new ResponseEntity("Proverite ponovo podatke", HttpStatus.BAD_REQUEST);
     }
 
+    @PutMapping("api/menadzer/promeniStatusUPripremi/{idPorudzbine}")
+    public ResponseEntity<String> promeniStatusUPripremi(@PathVariable(name = "idPorudzbine") Long idPorudzbine, HttpSession session){
+        Korisnik k = (Korisnik) session.getAttribute("korisnik");
+        if(k == null){
+            return new ResponseEntity("Niste ulogovani", HttpStatus.FORBIDDEN);
+        }
+        else if(k.getUloga() != Korisnik.Uloga.MENADZER){
+            return new ResponseEntity("Nemate pristup ovoj stranici", HttpStatus.FORBIDDEN);
+        }
+
+
+        Porudzbine p = porudzbineService.getPorudzbinaById(idPorudzbine);
+        if(p == null)
+            return new ResponseEntity("Ne postoji porudzbina", HttpStatus.BAD_REQUEST);
+        if(p.getStatus() != Porudzbine.Status.OBRADA)
+            return new ResponseEntity("Status porudzbine nije: OBRADA", HttpStatus.BAD_REQUEST);
+
+
+        porudzbineService.updateStauts(Porudzbine.Status.U_PRIPREMI, idPorudzbine);
+
+        return ResponseEntity.ok("Uspesno azuriran status. Status = U_PRIPREMI");
+    }
+
+    @PutMapping("api/menadzer/promeniStatusUCekaDostavljaca/{idPorudzbine}")
+    public ResponseEntity<String> promeniStatusUCekaDostavljaca(@PathVariable(name = "idPorudzbine") Long idPorudzbine, HttpSession session){
+        Korisnik k = (Korisnik) session.getAttribute("korisnik");
+        if(k == null){
+            return new ResponseEntity("Niste ulogovani", HttpStatus.FORBIDDEN);
+        }
+        else if(k.getUloga() != Korisnik.Uloga.MENADZER){
+            return new ResponseEntity("Nemate pristup ovoj stranici", HttpStatus.FORBIDDEN);
+        }
+
+
+        Porudzbine p = porudzbineService.getPorudzbinaById(idPorudzbine);
+        if(p == null)
+            return new ResponseEntity("Ne postoji porudzbina", HttpStatus.BAD_REQUEST);
+        if(p.getStatus() != Porudzbine.Status.U_PRIPREMI)
+            return new ResponseEntity("Status porudzbine nije: U_PRIPREMI", HttpStatus.BAD_REQUEST);
+
+
+        porudzbineService.updateStauts(Porudzbine.Status.CEKA_DOSTAVLJACA, idPorudzbine);
+
+        return ResponseEntity.ok("Uspesno azuriran status. Status = CEKA_DOSTAVLJACA");
+    }
+
 }
