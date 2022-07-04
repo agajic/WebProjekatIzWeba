@@ -62,35 +62,32 @@ public class KorisnikRestController {
         return ResponseEntity.ok(kdto);
     }
 
-    @PutMapping("api/changeUserInfo/{id}")
-    public ResponseEntity<String> changeUserInfo(@PathVariable(name = "id") Long id, @RequestBody KorisnikUpdateDto kdto, HttpSession session){
+    @PutMapping("api/changeUserInfo")
+    public ResponseEntity<String> changeUserInfo(@RequestBody KorisnikUpdateDto kdto, HttpSession session){
         Korisnik k = (Korisnik) session.getAttribute("korisnik");
         if(k==null){
             return new ResponseEntity("Niste ulogovani", HttpStatus.FORBIDDEN);
         }
-        if(korisnikService.update(k.getId(), kdto))
+        if(korisnikService.update(k.getId(), kdto)) {
+            k.setKorisnicko_ime(kdto.getKorisnicko_ime());
+            k.setLozinka(kdto.getLozinka());
+            k.setIme(kdto.getIme());
+            k.setPrezime(kdto.getPrezime());
+            k.setPol(kdto.getPol());
+            k.setDatum(kdto.getDatum());
+            session.setAttribute("korisnik", k);
             return ResponseEntity.ok("Uspesno izmenjene informacije");
+        }
         return new ResponseEntity("Nije pronadjen korisnik sa takvim id", HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("api/logout")
     public ResponseEntity<String> Logout(HttpSession session){
-        Korisnik k = (Korisnik) session.getAttribute("korisnik");
+        /*Korisnik k = (Korisnik) session.getAttribute("korisnik");
         if(k==null){
             return new ResponseEntity("Niste ulogovani", HttpStatus.FORBIDDEN);
-        }
+        }*/
         session.invalidate();
         return ResponseEntity.ok("Uspesno ste se izlogovali");
     }
-
-    /*@PostMapping("api/logout")
-    public ResponseEntity Logout(HttpSession session){
-        Employee loggedEmployee = (Employee) session.getAttribute("employee");
-
-        if (loggedEmployee == null)
-            return new ResponseEntity("Forbidden", HttpStatus.FORBIDDEN);
-
-        session.invalidate();
-        return new ResponseEntity("Successfully logged out", HttpStatus.OK);
-    }*/
 }

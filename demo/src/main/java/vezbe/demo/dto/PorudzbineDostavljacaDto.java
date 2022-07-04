@@ -5,6 +5,8 @@ import vezbe.demo.model.Porudzbine;
 import java.sql.Date;
 
 public class PorudzbineDostavljacaDto {
+    private Long id;
+
     private String UUID;
 
     private Date vremePorudzbine;
@@ -14,6 +16,7 @@ public class PorudzbineDostavljacaDto {
     private Porudzbine.Status status;
 
     public PorudzbineDostavljacaDto(Porudzbine p){
+        this.id = p.getId();
         this.UUID = p.getUUID();
         this.vremePorudzbine = p.getVremePorudzbine();
         this.kupac = new ImePrzDto(p.getKupac().getIme(), p.getKupac().getPrezime());
@@ -50,5 +53,13 @@ public class PorudzbineDostavljacaDto {
 
     public void setStatus(Porudzbine.Status status) {
         this.status = status;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

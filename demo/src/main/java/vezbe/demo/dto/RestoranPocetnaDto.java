@@ -4,6 +4,7 @@ import vezbe.demo.model.Lokacija;
 import vezbe.demo.model.Restoran;
 
 public class RestoranPocetnaDto {
+    private Long id;
 
     private String naziv;
 
@@ -14,6 +15,7 @@ public class RestoranPocetnaDto {
     private Restoran.StatusRestorana status;
 
     public RestoranPocetnaDto(Restoran r){
+        this.id = r.getId();
         this.naziv = r.getNaziv();
         this.tipRestorana = r.getTipRestorana();
         this.lokacija = r.getLokacija();
@@ -50,5 +52,13 @@ public class RestoranPocetnaDto {
 
     public void setStatus(Restoran.StatusRestorana status) {
         this.status = status;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

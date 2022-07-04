@@ -85,12 +85,12 @@ public class DostavljacController {
     @PutMapping("api/dostavljac/promeniStatusUDostavljena/{idPorudzbine}")
     public ResponseEntity<String> promeniStatusUDostavljena(@PathVariable(name = "idPorudzbine") Long idPorudzbine, HttpSession session){
         Korisnik k = (Korisnik) session.getAttribute("korisnik");
-        if(k == null){
+        /*if(k == null){
             return new ResponseEntity("Niste ulogovani", HttpStatus.FORBIDDEN);
         }
-        else if(k.getUloga() != Korisnik.Uloga.DOSTAVLJAC){
+        if(k.getUloga() != Korisnik.Uloga.DOSTAVLJAC){
             return new ResponseEntity("Nemate pristup ovoj stranici", HttpStatus.FORBIDDEN);
-        }
+        }*/
 
 
         Porudzbine p = porudzbineService.getPorudzbinaById(idPorudzbine);

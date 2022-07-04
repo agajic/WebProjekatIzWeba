@@ -29,4 +29,12 @@ public class EmployeeService {
     public Employee save(Employee employee){
         return employeeRepository.save(employee);
     }
+
+    public Employee login(String username, String password) {
+        /*Employee employee = employeeRepository.getByUsername(username);
+        if(employee == null || !employee.getPassword().equals(password))
+            return null;
+        return  employee;*/
+        return null;
+    }
 }

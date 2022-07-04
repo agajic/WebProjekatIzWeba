@@ -22,7 +22,7 @@ public class RestoranController {
     @Autowired
     private RestoranService restoranService;
 
-    @GetMapping("api/pocetna")
+    @GetMapping("api/restorani")
     public ResponseEntity<List<RestoranPocetnaDto>> pocetna(HttpSession session){
 
         /*Korisnik k = (Korisnik) session.getAttribute("korisnik");
@@ -110,7 +110,7 @@ public class RestoranController {
         return ResponseEntity.ok(restoraniDto);
     }
 
-    @GetMapping("api/restoran/{id}")
+    @GetMapping("api/restorani/{id}")
     public ResponseEntity<RestoranPrikazDto> restoran(@PathVariable(name = "id") Long id, HttpSession session){
         Restoran r = restoranService.findById(id);
         if(r == null){

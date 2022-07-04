@@ -85,6 +85,8 @@ public class DatabaseConfiguration {
 
         Kupac kupac1 = new Kupac("mmikic", "123"); //KAKO DATUM
         kupac1.setUloga(Korisnik.Uloga.KUPAC);
+        kupac1.setIme("Miki");
+        kupac1.setPrezime("Mikic");
         kupacRepository.saveAll(List.of(kupac1));
 
         Korisnik korisnik1 = new Korisnik("nkrstin", "123");
@@ -98,7 +100,7 @@ public class DatabaseConfiguration {
         dostavljacRepository.saveAll(List.of(dostavljac1));
 
         Porudzbine porudzbine1 = new Porudzbine("112233", restoran1, kupac1, dostavljac1);
-        //porudzbine1.setStatus(Porudzbine.Status.CEKA_DOSTAVLJACA);
+        porudzbine1.setStatus(Porudzbine.Status.U_TRANSPORTU);
         porudzbineRepository.saveAll(List.of(porudzbine1));
         restoran1.getPorudzbine().add(porudzbine1);
 
